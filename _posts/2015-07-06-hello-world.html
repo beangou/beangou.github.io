@@ -1,0 +1,14 @@
+---
+layout: default
+title: 你好，VIM
+---
+　  <h2>{{page.title}}</h2>
+  　<p>vim,  GO</p>
+	  <div>
+			<p>1.全局替换命令为：:%s/源字符串/目的字符串/g</p>
+			<p>2.确认替换：:%s/源字符串/目的字符串/c</p>
+			<p>实例：如将 " 替换为 空(确认替换)： %s/\”//c</p>
+			<p>3.查找打开高亮: set hls</p>
+			<p>4.移动单词: w向前移动一个， b向后移动一个</p>
+		</div>
+　　<p>{{ page.date | date_to_string }}</p>
