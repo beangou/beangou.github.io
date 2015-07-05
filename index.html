@@ -4,8 +4,8 @@ title: 笨狗博客
 ---
 
 <ul>
-	<h1> hello, 盼盼！</h1>
-	<h1> happy everyday!</h1>
-	<h3>by 小彬</h3>
+	{% for post in site.posts %}
+	   <li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+	{% endfor %}
 </ul>
 <audio id="myaudio" src="media/WithoutYou.mp3" controls="controls" loop="false">
