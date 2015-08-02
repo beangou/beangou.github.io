@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+*{margin:0;padding:0;}
+body {
+	font:13.34px helvetica,arial,freesans,clean,sans-serif;
+	color:black;
+	line-height:1.4em;
+	background-color: #F8F8F8;
+	padding: 0.7em;
+}
+p {
+	margin:1em 0;
+	line-height:1.5em;
+}
+table {
+	font-size:inherit;
+	font:100%;
+	margin:1em;
+}
+table th{border-bottom:1px solid #bbb;padding:.2em 1em;}
+table td{border-bottom:1px solid #ddd;padding:.2em 1em;}
+input[type=text],input[type=password],input[type=image],textarea{font:99% helvetica,arial,freesans,sans-serif;}
+select,option{padding:0 .25em;}
+optgroup{margin-top:.5em;}
+pre,code{font:12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;}
+pre {
+	margin:1em 0;
+	font-size:12px;
+	background-color:#eee;
+	border:1px solid #ddd;
+	padding:5px;
+	line-height:1.5em;
+	color:#444;
+	overflow:auto;
+	-webkit-box-shadow:rgba(0,0,0,0.07) 0 1px 2px inset;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;border-radius:3px;
+}
+pre code {
+	padding:0;
+	font-size:12px;
+	background-color:#eee;
+	border:none;
+}
+code {
+	font-size:12px;
+	background-color:#f8f8ff;
+	color:#444;
+	padding:0 .2em;
+	border:1px solid #dedede;
+}
+img{border:0;max-width:100%;}
+abbr{border-bottom:none;}
+a{color:#4183c4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+a code,a:link code,a:visited code{color:#4183c4;}
+h2,h3{margin:1em 0;}
+h1,h2,h3,h4,h5,h6{border:0;}
+h1{font-size:170%;border-top:4px solid #aaa;padding-top:.5em;margin-top:1.5em;}
+h1:first-child{margin-top:0;padding-top:.25em;border-top:none;}
+h2{font-size:150%;margin-top:1.5em;border-top:4px solid #e0e0e0;padding-top:.5em;}
+h3{margin-top:1em;}
+hr{border:1px solid #ddd;}
+ul{margin:1em 0 1em 2em;}
+ol{margin:1em 0 1em 2em;}
+ul li,ol li{margin-top:.5em;margin-bottom:.5em;}
+ul ul,ul ol,ol ol,ol ul{margin-top:0;margin-bottom:0;}
+blockquote{margin:1em 0;border-left:5px solid #ddd;padding-left:.6em;color:#555;}
+dt{font-weight:bold;margin-left:1em;}
+dd{margin-left:2em;margin-bottom:1em;}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+<title>使用java -jar运行jar包</title>
+
+</head>
+<body>
+<p><link rel="stylesheet" href="/Users/liutongbin/Downloads/highlight/styles/railscasts.css"></p>
+
+<script src="file:///Users/liutongbin/Downloads/highlight/highlight.pack.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<h2>使用java -jar运行jar包</h2>
+
+<h3>其实不难，网上能搜到不少，但是讲不全，或者讲了不少，有的细节却漏掉了，在此，我想讲完整点</h3>
+
+<ol>
+<li>其实命令比较简单：进入相应的目录后，执行java -jar XXX.jar即可！</li>
+<li>但是，为什么通过Maven打包或者Eclipse export出来的jar不能运行呢？原因很简单，没指定执行哪个类的main方法，如何指定？配置文件，项目文件夹下有一个META-INF文件夹，META-INF文件夹下有一个MANIFEST.MF文件，只要更改该文件就可以了</li>
+<li><p>默认该文件内容是：<br>
+ Manifest-Version: 1.0 <br/>
+ Created-By: 1.4.2(Sun Microsystems Inc.)<br>  <br/>
+将其改成<br>
+ Manifest-Version: 1.0 <br/>
+ Created-By: 1.4.2(Sun Microsystems Inc.)</br>   Main-Class: XXX.XXX.XXX.XXX</br></p>
+
+<p> <font color="red"><strong>注意</strong></font><br>
+ Main-Class后面X部分是包名.类名<br>
+ Main-Class:后面有个空格，下面还有空的一行</p></li>
+<li><p>改好内容后，怎么将其打成jar包呢？我试过，直接用winrar打包，然后改后缀名，不行，</p>
+
+<p> 以下这种方法可行：</p>
+
+<p> 假设你的jar包名为myJar.jar:</p>
+
+<ul>
+<li>(1)先将myJar.jar解压至myJar（在同一层文件夹）</li>
+<li>(2)进入myJar文件夹，再进入META-INF文件夹，更改MANIFEST.MF文件，按照步骤三的操作即可</li>
+<li>(3)保存后退到myJar.jar同一层目录，然后执行jar umf myJar/META-INF/MANIFEST.MF myJar.jar, MANIFEST.MF文件已经被改成了相应的需要的文件了</li>
+<li>(4)在当前目录执行java -jar myJar.jar即可</li>
+</ul>
+</li>
+<li><font color="blue"><strong>THE END</strong></font></li>
+</ol>
+
+
+<hr />
+
+<p><font color="red">以下为练习markdown所用，可以无视</font></p>
+
+<h4>无序列表</h4>
+
+<ul>
+<li>aaa</li>
+<li>bbb</li>
+<li>ccc</li>
+<li>ddd</li>
+</ul>
+
+
+<h4>有序列表</h4>
+
+<ol>
+<li>111111</li>
+<li>2222222</li>
+<li>33333333</li>
+<li>4444444444</li>
+</ol>
+
+
+<blockquote><p>这是引用 哈哈
+这个呢
+的健康是假的
+导数据的口技刷卡的健康是假的离开家
+的数据科技大厦</p></blockquote>
+
+<h4>插入链接</h4>
+
+<p><a href="http://baidu.com">百度</a></p>
+
+<h4>插入图片</h4>
+
+<p><img src="http://mouapp.com/Mou_128.png" alt="Mou icon" /></p>
+
+<h4>粗体与斜体</h4>
+
+<p><strong>这是粗体</strong></p>
+
+<p><em>这是斜体</em></p>
+
+<p> #### 表格</p>
+
+<table>
+<thead>
+<tr>
+<th> Tables        </th>
+<th align="center"> Are           </th>
+<th align="right"> Cool  </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> col 3 is      </td>
+<td align="center"> right-aligned </td>
+<td align="right"> $1600 </td>
+</tr>
+<tr>
+<td> col 2 is      </td>
+<td align="center"> centered      </td>
+<td align="right">   $12 </td>
+</tr>
+<tr>
+<td> zebra stripes </td>
+<td align="center"> are neat      </td>
+<td align="right">    $1 </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>代码块</h3>
+
+<pre><code>@Override
+    public AuthshopActivity loadAuthshopActivityBycheniuAccount(
+            String cheniuAccount) 
+            {
+                return (AuthshopActivity)this.sqlSession.selectOne(
+                        "shopActivity.loadAuthshopActivityBycheniuAccount",                         cheniuAccount);
+    }
+</code></pre>
+
+<pre><code>@requires_authorization
+def somefunc(param1='', param2=0):
+    '''A docstring'''
+    if param1 &gt; param2: # interesting
+        print 'Greater'
+    return (param2 - param1 + 1) or None
+class SomeClass:
+    pass
+&gt;&gt;&gt; message = '''interpreter
+... prompt'''
+</code></pre>
+
+<h3>分割线</h3>
+
+<hr />
+
+<p> 等待  等待  等待</p>
+
+<p>等待</p>
+
+<pre><code>st=&gt;start: Start
+e=&gt;end
+op=&gt;operation: My Operation
+cond=&gt;condition: Yes or No?
+
+st-&gt;op-&gt;cond
+cond(yes)-&gt;e
+cond(no)-&gt;op
+</code></pre>
+</body>
+</html>
