@@ -4,6 +4,9 @@ title: swagger框架集成到rails项目
 ---
 
 ### swagger框架集成到rails项目
+0. 目录结构
+   <br>
+   ![目录结构](http://beangou.github.io/blog/images/swagger_directory.png)
 1. swagger号称是世界上最流行的api框架(The World's Most Popular Framework for APIs).
 2. Gemfile文件加入必须的gem：
    <pre><code>
@@ -63,4 +66,4 @@ end
    </code></pre>
 7. 重新部署项目，输入url: http://url/apidoc，就能看到如下页面，写完手工！
    <br>
-   ![img](../images/swagger.png)
+   ![img](http://beangou.github.io/blog/images/swagger.png)
