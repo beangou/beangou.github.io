@@ -66,4 +66,3 @@ after_fork do |server, worker|
   system("echo #{Process.pid} > #{child_pid}")
 end
 <code>
-</pre>
