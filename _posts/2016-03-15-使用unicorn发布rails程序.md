@@ -6,8 +6,8 @@ title: 使用unicorn发布rails程序
 ### 使用unicorn发布rails程序
 1. 安装unicorn： gem install unicorn
 2. 发布测试环境:
-   unicorn_rails -E test -D -c /home/localadmin/banks/config/deploy/test_unicorn.rb
-   同理：发布开发环境:
+   unicorn_rails -E test -D -c /home/localadmin/banks/config/deploy/test_unicorn.rb,
+   同理, 发布开发环境:
    unicorn_rails -E production -D -c /home/localadmin/banks/config/deploy/production_unicorn.rb
    * 注意：修改项目路径
    * -D 以Deamon 形式(守护进程)启动
