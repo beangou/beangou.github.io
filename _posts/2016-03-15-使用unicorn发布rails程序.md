@@ -13,8 +13,7 @@ title: 使用unicorn发布rails程序
 	* -D 以Deamon 形式(守护进程)启动
 	* -c 设定配置文件，如我们的 /workspace/project_name/config/unicorn.rb
 	* -E 设定生产环境或开发环境，如 -E production
-3. 以下是test_unicorn.rb文件内容  
-<pre>   
+3. 以下是test_unicorn.rb文件内容   
 <code>
 rails_root  = "/Users/xxx/workgit/banks"
 rails_env   = "test"
