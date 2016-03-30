@@ -23,7 +23,8 @@ title: java rsa秘钥加密出错：algid parse error, not a sequence
 2. 根据以上错误信息，很可能是你的秘钥文件格式问题（PKCS#1这种格式），你可以按照以下方法将秘钥文件改为PKCS#8。
 	<pre>
 		<code>
-		openssl pkcs8 -topk8 -inform PEM -outform PEM -in 你的秘钥文件.pem -out 输出		秘钥文件.pem -nocrypt
+		openssl pkcs8 -topk8 -inform PEM -outform PEM -in 你的秘钥文件.pem -out 
+		输出秘钥文件.pem -nocrypt
 		</code>
 	</pre>
 
