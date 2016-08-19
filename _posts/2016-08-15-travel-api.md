@@ -187,93 +187,118 @@
     
 
 ####二. 题目接口
-* 获取题目列表
-  * url: http://www.beangou.com:9090/app/v1/questions
+* 根据书本id获取所有章节，以及下面的题目类型
+  * url: http://www.beangou.com:9090/app/v1/getChapters
   * method: post
-  * params: {"pageIndex": 页数, "pageSize": 页大小}    
+  * params: {"parentId": 书名id} 
+  * 返回值中的typeList表示该章有哪几种题目类型（1：单选、2：多选、3：判断）   
   * return:     
     <code><pre>
     	{
-  "totalItems": 2,
   "data": [
     {
-      "id": 13,
-      "title": "中国第一位皇帝是谁",
-      "options": [
-        {
-          "id": 17,
-          "content": "A.dsds",
-          "createdAt": null,
-          "updatedAt": null,
-          "deletedAt": null
-        },
-        {
-          "id": 18,
-          "content": "B.sdsd",
-          "createdAt": null,
-          "updatedAt": null,
-          "deletedAt": null
-        },
-        {
-          "id": 19,
-          "content": "C.dsdsd",
-          "createdAt": null,
-          "updatedAt": null,
-          "deletedAt": null
-        },
-        {
-          "id": 20,
-          "content": "D.dsdsd",
-          "createdAt": null,
-          "updatedAt": null,
-          "deletedAt": null
-        }
-      ],
-      "answers": "[\"B\",\"C\"]",
-      "analysis": "dsdsdsdsd",
-      "type": null,
+      "id": 29,
+      "type": 2,
+      "title": "第一章 导游活动与旅游业",
+      "content": null,
+      "parentId": 1,
       "createdAt": null,
       "updatedAt": null,
+      "deletedAt": null,
+      "typeList": [
+        1,
+        2,
+        3
+      ],
+      "questions": null,
+      "sonCourses": null
+    },
+    {
+      "id": 30,
+      "type": 2,
+      "title": "第二章 中国历史文化",
+      "content": null,
+      "parentId": 1,
+      "createdAt": null,
+      "updatedAt": null,
+      "deletedAt": null,
+      "typeList": [],
+      "questions": [],
+      "sonCourses": null
+    },
+    {
+      "id": 36,
+      "type": 2,
+      "title": "第三章 中国旅游景观",
+      "content": null,
+      "parentId": 1,
+      "createdAt": null,
+      "updatedAt": null,
+      "deletedAt": null,
+      "typeList": [],
+      "questions": [],
+      "sonCourses": null
+    },
+    {
+      "id": 37,
+      "type": 2,
+      "title": "第四章 中国的名族与名俗",
+      "content": null,
+      "parentId": 1,
+      "createdAt": null,
+      "updatedAt": null,
+      "deletedAt": null,
+      "typeList": [],
+      "questions": [],
+      "sonCourses": null
+    }
+  ],
+  "responseCode": "00",
+  "responseMsg": "SUCCESS"
+}
+    </code></pre>
+    
+* 根据章id、题目类型获取题目列表
+  * url: http://www.beangou.com:9090/app/v1/questionsByCourseAndType
+  * method: post
+  * params: {"courseId": "章id", "type": "题目类型"}
+  * 传参type（1：单选、2：多选、3：判断） 
+  * 判断题： answer：1 表示争取， 0表示错误  
+  * return:     
+    <code><pre>
+    	{
+  "data": [
+    {
+      "id": 1,
+      "title": "新中国成立时间 是1929年",
+      "options": [],
+      "answers": "\"2\"",
+      "analysis": "是1949年",
+      "type": 3,
+      "createdAt": 1469956567977,
+      "updatedAt": 1469956567977,
       "deletedAt": null
     },
     {
-      "id": 14,
-      "title": "中国第一位皇帝是谁",
-      "options": [
-        {
-          "id": 21,
-          "content": "A.dsdsd",
-          "createdAt": null,
-          "updatedAt": null,
-          "deletedAt": null
-        },
-        {
-          "id": 22,
-          "content": "B.dsdsd",
-          "createdAt": null,
-          "updatedAt": null,
-          "deletedAt": null
-        },
-        {
-          "id": 23,
-          "content": "C.dsds",
-          "createdAt": null,
-          "updatedAt": null,
-          "deletedAt": null
-        },
-        {
-          "id": 24,
-          "content": "D.dsdsd",
-          "createdAt": null,
-          "updatedAt": null,
-          "deletedAt": null
-        }
-      ],
-      "answers": "[\"B\"]",
-      "analysis": "sddssd",
-      "type": null,
-      "createdAt": null,
-      "updatedAt": null,
+      "id": 2,
+      "title": "汉代第一个皇帝是汉武帝",
+      "options": [],
+      "answers": "\"0\"",
+      "analysis": "汉高祖",
+      "type": 3,
+      "createdAt": 1469956674263,
+      "updatedAt": 1469956674263,
+      "deletedAt": null
+    },
+    {
+      "id": 3,
+      "title": "djskfjk ",
+      "options": [],
+      "answers": "\"1\"",
+      "analysis": "dsfdjks ",
+      "type": 3,
+      "createdAt": 1469957053649,
+      "updatedAt": 1469957053649,
       "deletedAt": null
     }
   ],
@@ -281,3 +306,4 @@
   "responseMsg": "SUCCESS"
 }
     </code></pre>
+    
