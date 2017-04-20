@@ -1,0 +1,124 @@
+---
+layout: default
+title: 使用aop保存用户操作记录：包括入参以及接口返回值
+---
+　  <h2>{{page.title}}</h2>
+<div>
+    <p>1. 使用maven引入相应jar包:
+        <pre>
+            <code>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                    <version>4.3.7.RELEASE</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.aspectj</groupId>
+                    <artifactId>aspectjrt</artifactId>
+                    <version>1.8.9</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.aspectj</groupId>
+                    <artifactId>aspectjweaver</artifactId>
+                    <version>1.8.9</version>
+                </dependency>
+            </code>
+        </pre>
+    </p>
+    <p>2.核心代码：
+        <pre>
+            切面处理类：
+            <code>
+                @Aspect
+                @Component
+                public class OperationLogAspect {
+                    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+                    @Autowired
+                    private OperationLogFacade operationLogFacade;
+
+                    /**
+                     * 使用aop保存操作日志记录
+                     * @param joinPoint
+                     * @param responseObj
+                     */
+                    @AfterReturning(pointcut="execution(* com.xxx.xxx.controller.*.*(..))", returning="responseObj")
+                    public void afterReturning(JoinPoint joinPoint , Object responseObj)  {
+                        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+                        Method method = methodSignature.getMethod();
+
+                        Result convertResult = null;
+                        if (responseObj instanceof Result) {
+                            // 注意：接口统一返回Result对象，通过该对象获取接口的返回code、message
+                            convertResult = (Result) responseObj;
+                        }
+
+                        // 接收到请求，记录请求内容
+                        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+                        HttpServletRequest request = attributes.getRequest();
+
+                        Map<String, String> paramMap = new HashedMap();
+                        Enumeration<String> parameterNames = request.getParameterNames();
+                        while (parameterNames.hasMoreElements()) {
+                            String parameterName = parameterNames.nextElement();
+                            paramMap.put(parameterName, request.getParameter(parameterName));
+                        }
+
+                        // 使用注解，记录操作日志
+                        // 只有该方法被AuthOperation注解，才保存操作日志
+                        AuthOperation authOperation = method.getAnnotation(AuthOperation.class);
+                        if (authOperation != null) {
+                            OperationLog operationLog = new OperationLog();
+                            operationLog.setPlatform(paramMap.get("platform") == null ? null : Byte.valueOf(paramMap.get("platform")));
+                            operationLog.setUserId(paramMap.get("operatorId"));
+                            operationLog.setType(authOperation.operatorType().name());
+                            operationLog.setParams(paramMap.toString());
+                            operationLog.setReturnCode(convertResult == null ? null : (byte)convertResult.getCode());
+
+                            operationLog.setReturnMsg(convertResult == null ? null : convertResult.getMessage());
+                            operationLogFacade.insert(operationLog);
+                            logger.info("操作日志新增记录成功, {}", operationLog);
+                        }
+                    }
+                }
+            </code>
+        </pre>
+
+        <pre>
+            被切面类：
+            <code>
+                package com.xxx.xxx.controller;
+                public class ResourceController {
+                    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+                    @Autowired
+                    private ResourceFacade resourceFacade;
+
+                    @RequestMapping(value = "/create", method = RequestMethod.POST)
+                    @ResponseBody
+                    @AuthOperation(operatorType = OperationTypeEnum.RESOURCE_CREATE)
+                    public Result<Boolean> create(ResourceCreateRo resourceCreateRo) {
+                        if (resourceCreateRo == null) {
+                            return Result.failure("resourceCreateRo不能为null");
+                        }
+                        boolean result;
+                        String message;
+                        try {
+                            result = resourceFacade.insert(resourceCreateRo);
+                            return Result.success(result);
+                        } catch (AuthException e) {
+                            logger.error("业务异常：", e);
+                            message = e.getMessage();
+                        } catch (Exception e) {
+                            logger.error("未知异常：", e);
+                            message = e.getMessage();
+                        }
+                        return Result.failure(message);
+                    }
+
+                }
+            </code>
+        </pre>
+    </p>
+</div>
+<p>{{ page.date | date_to_string }}</p>
