@@ -3,6 +3,8 @@ layout: default
 title: springboot实现监听redis key失效事件
 ---
 
+## springboot实现监听redis key失效事件
+
 ### 一、需求说明：
 大家在使用redis的时候，可能需要在redis key失效的时候，做一些事情，比如统计方面（我的上一篇文章就用到：[统计当前在线用户数、平均访问时长、在线用户最高数等实现](https://my.oschina.net/beanGo/blog/1507424)），因为查找资料都讲的不是很全，或者有问题，所以，在此做一个详细点的说明。
 
