@@ -1,6 +1,6 @@
 ---
 layout: default
-title: springboot实现监听redis key失效事件
+title: spring-data-mongodb高级查询用法小结
 ---
 
 ### 0.准备工作，先介绍下mongodb的集合名，java bean，以及数据结构
