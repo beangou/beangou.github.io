@@ -5,7 +5,7 @@ title: spring-data-mongodb高级查询用法小结
 
 ### 0.准备工作，先介绍下mongodb的集合名，java bean，以及数据结构
 * mongodb集合名称：doc_pageview
-* 集合数据结构：
+* 集合数据结构：  
 	
 	```
 	{
