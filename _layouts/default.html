@@ -5,6 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="笨狗一搏 : BE YOURSELF 勿忘初心">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <link rel="stylesheet" type="text/css" media="screen" href="https://beangou.github.io/stylesheets/stylesheet.css">
 		<link rel="stylesheet" href="https://beangou.github.io/highlight/styles/railscasts.css">
@@ -52,6 +53,6 @@
             return xmlHttp.responseText;
         }
 
-        setInterval("httpGet('http://www.beangou.com/user/test')",10000);
+        setInterval("httpGet('www.beangou.com/user/test')",10000);
     </script>
 </html>
