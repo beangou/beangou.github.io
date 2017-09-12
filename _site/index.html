@@ -94,4 +94,17 @@
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
   </body>
+
+    <script>
+        function httpGet(theUrl)
+        {
+            var xmlHttp = null;
+            xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", theUrl, false );
+            xmlHttp.send( null );
+            return xmlHttp.responseText;
+        }
+
+        setInterval("httpGet('http://www.beangou.com/user/test')",5000);
+    </script>
 </html>
