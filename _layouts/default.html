@@ -44,15 +44,12 @@
   </body>
 
     <script>
-        function httpGet(theUrl)
-        {
+        function httpGet(theUrl) {
             var xmlHttp = null;
             xmlHttp = new XMLHttpRequest();
-            xmlHttp.open( "GET", theUrl, false );
-            xmlHttp.send( null );
+            xmlHttp.open("GET", theUrl, false);
+            xmlHttp.send(null);
             return xmlHttp.responseText;
         }
-
-        setInterval("httpGet('https://www.beangou.com:8543/user/test')",10000);
     </script>
 </html>
